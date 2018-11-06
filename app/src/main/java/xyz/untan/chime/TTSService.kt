@@ -8,6 +8,9 @@ import android.speech.tts.UtteranceProgressListener
 import android.util.Log
 import java.util.*
 
+/*
+* TTSService: TTSでしゃべってから自身を終了するだけのService
+*/
 class TTSService : Service(), TextToSpeech.OnInitListener {
     val TAG: String = TTSService::class.java.simpleName
     private var tts: TextToSpeech? = null
@@ -35,6 +38,7 @@ class TTSService : Service(), TextToSpeech.OnInitListener {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        Log.d(TAG, "onStartCommand")
         tts = TextToSpeech(this, this)
         tts!!.setOnUtteranceProgressListener(listener)
         return Service.START_STICKY
