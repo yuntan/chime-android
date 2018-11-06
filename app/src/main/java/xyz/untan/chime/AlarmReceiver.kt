@@ -34,12 +34,13 @@ class AlarmReceiver : BroadcastReceiver() {
         val window = 60 * 1000L // 60s
 
         val manager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val alarmType = AlarmManager.RTC // do not wake up the phone
+        val alarmType = AlarmManager.RTC_WAKEUP // wake up the phone
         // FIXME why applicationContext?
         val intent = Intent(context.applicationContext, TTSService::class.java)
         val operation = PendingIntent.getService(
             context.applicationContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT
         )
+        // TODO PendingIntent.getForegroundService()
         // If there is already an alarm for this Intent scheduled , then it will be removed and replaced by this one.
         manager.setWindow(alarmType, millis, window, operation)
     }
