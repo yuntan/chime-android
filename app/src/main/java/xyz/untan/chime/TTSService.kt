@@ -1,10 +1,17 @@
 package xyz.untan.chime
 
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.app.Service
+import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.IBinder
 import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
+import android.support.v4.app.NotificationCompat
+import android.support.v4.content.ContextCompat
 import android.util.Log
 import java.util.*
 
@@ -13,6 +20,8 @@ import java.util.*
 */
 class TTSService : Service(), TextToSpeech.OnInitListener {
     val TAG: String = TTSService::class.java.simpleName
+    val notifyId = 1
+    val channelId = "foreground"
     private var tts: TextToSpeech? = null
     private val listener = object : UtteranceProgressListener() {
         override fun onStart(id: String?) {
@@ -41,6 +50,7 @@ class TTSService : Service(), TextToSpeech.OnInitListener {
         Log.d(TAG, "onStartCommand")
         tts = TextToSpeech(this, this)
         tts!!.setOnUtteranceProgressListener(listener)
+        startForeground(notifyId, buildNotification())
         return Service.START_STICKY
     }
 
@@ -60,6 +70,18 @@ class TTSService : Service(), TextToSpeech.OnInitListener {
         tts!!.language = Locale.ENGLISH
         tts!!.setSpeechRate(.8F)
         tts!!.speak(text, TextToSpeech.QUEUE_FLUSH, null, text)
+    }
+
+    private fun buildNotification(): Notification {
+        val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && manager.getNotificationChannel(channelId) == null) {
+            val importance = NotificationManager.IMPORTANCE_DEFAULT // makes sound
+            val channel = NotificationChannel(channelId, channelId, importance)
+            manager.createNotificationChannel(channel)
+        }
+        return NotificationCompat.Builder(applicationContext, channelId)
+            .setColor(ContextCompat.getColor(this, R.color.colorPrimary))
+            .build()
     }
 
     private fun genSpeechText(): String {
