@@ -39,6 +39,8 @@ class AlarmReceiver : BroadcastReceiver() {
         // FIXME why applicationContext?
         val intent = Intent(context.applicationContext, TTSService::class.java)
         val operation = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // Android Oではバックグラウンド実行制限があるので，フォアグラウンドで起動する必要がある
+            // https://developer.android.com/about/versions/oreo/background
             PendingIntent.getForegroundService(
                 context.applicationContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT
             )

@@ -17,6 +17,9 @@ import java.util.*
 
 /*
 * TTSService: TTSでしゃべってから自身を終了するだけのService
+* 音声を再生するのでフォアグラウンドサービスである必要がある
+* 参考: https://developer.android.com/about/versions/oreo/background#migration
+* > 音声を再生するサービスは常にフォアグラウンド サービスである必要があります。
 */
 class TTSService : Service(), TextToSpeech.OnInitListener {
     val TAG: String = TTSService::class.java.simpleName
