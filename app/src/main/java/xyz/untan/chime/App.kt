@@ -20,20 +20,22 @@ class App : Application() {
         Log.d(tag, "onCreate")
         super.onCreate()
 
+        // TODO 設定で変更可能にする
         val intervalMins = 15
 
-        // AlarmReceiverの実行タイミングをTTSServiceよりも遅らせる
+        // RepeatingAlarmReceiverの実行タイミングをTTSServiceよりも遅らせる
         val cal = Calendar.getInstance()
         cal.add(Calendar.MINUTE, intervalMins)
         cal.set(Calendar.MINUTE, cal.get(Calendar.MINUTE) / intervalMins * intervalMins + 5)
         cal.set(Calendar.SECOND, 0)
         val triggerAtMillis = cal.timeInMillis
 
+        // RepeatingAlarmReceiverをAlarmManagerに登録する
         val manager = applicationContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val alarmType = AlarmManager.RTC // do not wake up the phone
         val interval = AlarmManager.INTERVAL_FIFTEEN_MINUTES
         // intent for AlarmReceiver
-        val intent = Intent(applicationContext, AlarmReceiver::class.java)
+        val intent = Intent(applicationContext, RepeatingAlarmReceiver::class.java)
         val operation = PendingIntent.getBroadcast(
             applicationContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT
         )

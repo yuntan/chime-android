@@ -29,6 +29,19 @@
                 android:enabled="true"
                 android:exported="true">
         </service>
+
+        <receiver
+                android:name=".RepeatingAlarmReceiver"
+                android:enabled="true"
+                android:exported="true">
+        </receiver>
+
+        <receiver
+                android:name=".OneshotAlarmReceiver"
+                android:enabled="true"
+                android:exported="true">
+        </receiver>
+
     </application>
 
 </manifest>
