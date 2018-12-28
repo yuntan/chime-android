@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'deploygate'
+
 android {
     compileSdkVersion 27
     defaultConfig {
@@ -30,4 +32,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    // DeployGate SDK
+    implementation 'com.deploygate:sdk:4.1.0'
 }
