@@ -15,34 +15,34 @@ import com.deploygate.sdk.DeployGate
 * 設定値によりTTSServiceを起動するかどうか判別する．
 */
 class OneshotAlarmReceiver : BroadcastReceiver() {
-    private val tag: String = OneshotAlarmReceiver::class.java.simpleName
+    private val TAG: String = OneshotAlarmReceiver::class.java.simpleName
 
     override fun onReceive(context: Context, intent: Intent) {
-        Log.d(tag, "onReceive")
+        Log.d(TAG, "onReceive")
 
         if (isDoNotDisturbOn(context)) {
             val msg = "onReceive: alarm postponed due to do not disturb"
-            Log.d(tag, msg)
-            DeployGate.logDebug(msg);
+            Log.d(TAG, msg)
+            DeployGate.logDebug(msg)
             return
         }
 
         if (!isAudioModeNormal(context)) {
             val msg = "onReceive: alarm postponed due to audio mode"
-            Log.d(tag, msg)
-            DeployGate.logDebug(msg);
+            Log.d(TAG, msg)
+            DeployGate.logDebug(msg)
             return
         }
 
         if (!isHeadsetOn(context)) {
             val msg = "onReceive: alarm postponed due to audio device"
-            Log.d(tag, msg)
-            DeployGate.logDebug(msg);
+            Log.d(TAG, msg)
+            DeployGate.logDebug(msg)
             return
         }
 
         val msg = "onReceive: alarm accepted"
-        Log.d(tag, msg)
+        Log.d(TAG, msg)
         DeployGate.logDebug(msg)
 
         startService(context)
@@ -73,7 +73,8 @@ class OneshotAlarmReceiver : BroadcastReceiver() {
                         || it.type == AudioDeviceInfo.TYPE_BLUETOOTH_SCO
             }
         } else {
-            manager.isWiredHeadsetOn() || manager.isBluetoothA2dpOn()
+            @Suppress("DEPRECATION")
+            manager.isWiredHeadsetOn || manager.isBluetoothA2dpOn
         }
     }
 

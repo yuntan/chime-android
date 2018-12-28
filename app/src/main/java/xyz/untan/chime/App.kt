@@ -11,26 +11,27 @@ import java.util.*
 /*
 * App: アプリケーションの他のどのコンポーネントよりも前に生成される
 */
+@Suppress("unused")
 class App : Application() {
-    val tag: String = App::class.java.simpleName
+    private val TAG: String = App::class.java.simpleName
 
     // Called when the application is starting, before any activity, service, or receiver objects (excluding content
     // providers) have been created.
     override fun onCreate() {
-        Log.d(tag, "onCreate")
+        Log.d(TAG, "onCreate")
         super.onCreate()
 
         // TODO 設定で変更可能にする
         val intervalMins = 15
 
-        // RepeatingAlarmReceiverの実行タイミングをTTSServiceよりも遅らせる
+        // [RepeatingAlarmReceiver]の実行タイミングをTTSServiceよりも遅らせる
         val cal = Calendar.getInstance()
         cal.add(Calendar.MINUTE, intervalMins)
         cal.set(Calendar.MINUTE, cal.get(Calendar.MINUTE) / intervalMins * intervalMins + 5)
         cal.set(Calendar.SECOND, 0)
         val triggerAtMillis = cal.timeInMillis
 
-        // RepeatingAlarmReceiverをAlarmManagerに登録する
+        // [RepeatingAlarmReceiver]を[AlarmManager]に登録する
         val manager = applicationContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val alarmType = AlarmManager.RTC // do not wake up the phone
         val interval = AlarmManager.INTERVAL_FIFTEEN_MINUTES

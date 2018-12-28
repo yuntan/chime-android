@@ -13,7 +13,7 @@ import java.util.*
 * おおよそ15分の間隔で繰り返し起動される．
 */
 class RepeatingAlarmReceiver : BroadcastReceiver() {
-    val TAG: String = RepeatingAlarmReceiver::class.java.simpleName
+    private val TAG: String = RepeatingAlarmReceiver::class.java.simpleName
 
     override fun onReceive(context: Context, intent: Intent) {
         Log.d(TAG, "onReceive")

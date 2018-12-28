@@ -5,10 +5,10 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 
 class SettingsActivity : AppCompatActivity() {
-    private val tag: String = SettingsActivity::class.java.simpleName
+    private val TAG: String = SettingsActivity::class.java.simpleName
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.d(tag, "onCreate")
+        Log.d(TAG, "onCreate")
         super.onCreate(savedInstanceState)
 
         // 単一のFragmentを使用

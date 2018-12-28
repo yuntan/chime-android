@@ -22,15 +22,16 @@ import java.util.*
 * > 音声を再生するサービスは常にフォアグラウンド サービスである必要があります。
 */
 class TTSService : Service(), TextToSpeech.OnInitListener {
-    val TAG: String = TTSService::class.java.simpleName
-    val notifyId = 1
-    val channelId = "foreground"
+    private val TAG: String = TTSService::class.java.simpleName
+    private val notifyId = 1
+    private val channelId = "foreground"
     private var tts: TextToSpeech? = null
     private val listener = object : UtteranceProgressListener() {
         override fun onStart(id: String?) {
             Log.d(TAG, "onStart")
         }
 
+        @Suppress("OverridingDeprecatedMember")
         override fun onError(id: String?) {
             Log.d(TAG, "onError")
         }
