@@ -1,3 +1,32 @@
 <resources>
     <string name="app_name">Chime</string>
+
+    <string name="pref_title_chime_switch_on">On</string>
+    <string name="pref_title_chime_switch_off">Off</string>
+    <string name="pref_title_group_speech">Speech</string>
+    <string name="pref_title_voice">Voice</string>
+    <string name="pref_title_group_alarm">Alarm</string>
+    <string name="pref_title_interval">Interval</string>
+    <string-array name="pref_entries_interval">
+        <item>15 mins</item>
+        <item>30 mins</item>
+        <item>1 hour</item>
+    </string-array>
+    <string-array name="pref_values_interval">
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+    </string-array>
+    <string name="pref_title_silent_hours">Silent time</string>
+    <string name="pref_title_sound_devices">Sound devices</string>
+    <string-array name="pref_entries_sound_devices">
+        <item>Speaker</item>
+        <item>Wired</item>
+        <item>Bluetooth</item>
+    </string-array>
+    <string-array name="pref_values_sound_devices">
+        <item>1</item>
+        <item>2</item>
+        <item>4</item>
+    </string-array>
 </resources>

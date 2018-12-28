@@ -1,0 +1,52 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <SwitchPreference
+            android:key="chime_switch"
+            android:title="@string/pref_title_chime_switch_on"
+            android:defaultValue="true"/>
+
+    <PreferenceCategory
+            android:title="@string/pref_title_group_speech">
+
+        <!-- NOTE: ListPreference's summary should be set to its value by the activity code. -->
+        <ListPreference
+                android:key="voice"
+                android:title="@string/pref_title_voice"
+                android:defaultValue="0"/>
+
+        <ListPreference
+                android:key="speed"
+                android:title="Speed"/>
+
+        <Preference
+                android:key="test"
+                android:title="Test"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+            android:title="@string/pref_title_group_alarm">
+
+        <!-- NOTE: Hide buttons to simplify the UI. Users can touch outside the dialog to dismiss it. -->
+        <ListPreference
+                android:key="interval"
+                android:defaultValue="1"
+                android:title="@string/pref_title_interval"
+                android:entries="@array/pref_entries_interval"
+                android:entryValues="@array/pref_values_interval"
+                android:negativeButtonText="@null"
+                android:positiveButtonText="@null"/>
+
+        <Preference
+                android:key="silent_hours"
+                android:title="@string/pref_title_silent_hours"/>
+
+        <MultiSelectListPreference
+                android:key="sound_devices"
+                android:title="@string/pref_title_sound_devices"
+                android:entries="@array/pref_entries_sound_devices"
+                android:entryValues="@array/pref_values_sound_devices"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
