@@ -24,7 +24,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         Log.d(tag, "onActivityCreated")
         super.onActivityCreated(savedInstanceState)
 
-        val btnTest = findPreference("test")
+        val btnTest = findPreference(getString(R.string.pref_key_speak_test))
         btnTest.setOnPreferenceClickListener {
             // TODO
             true
