@@ -49,6 +49,26 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
 
     // implement PreferenceChangeListener
     override fun onPreferenceChange(pref: Preference?, newValue: Any?): Boolean {
+        if (pref == null) return false
+
+        // 言語が選択されたら声のリストと設定値を更新
+        if (pref.key == getString(R.string.pref_key_lang)) {
+            val localeName = newValue as String?
+            if (!localeName.isNullOrEmpty()) {
+                val voiceNames = tts!!.voices
+                    .filter { it.locale.displayName == localeName }
+                    .map { it.name }.sorted().toTypedArray()
+
+                // 声のリストを更新
+                val prefVoice = findPreference(getString(R.string.pref_key_voice)) as ListPreference
+                prefVoice.entries = voiceNames
+                prefVoice.entryValues = voiceNames
+                val name = voiceNames.first()
+                prefVoice.value = name
+                prefVoice.summary = name
+            }
+        }
+
         // ユーザーが新しい設定値を選択した時にUIのテキストを更新する
         when (pref) {
             is SwitchPreference -> {
@@ -64,7 +84,7 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
                 val ix = (newValue as Collection<*>).map { pref.findIndexOfValue(it as String) }.sorted()
                 pref.summary = ix.joinToString(", ") { pref.entries[it] }
             }
-            else -> pref!!.summary = newValue.toString()
+            else -> pref.summary = newValue.toString()
         }
         return true
     }
@@ -74,17 +94,22 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
         Log.d(TAG, "onInit")
 
         if (status != TextToSpeech.SUCCESS) {
-            Log.d(TAG, "TextToSpeech error")
+            Log.e(TAG, "onInit: TextToSpeech error")
             return
         }
+        assert(tts != null)
 
-        val voiceNames = tts!!.voices.map { it.name }.sorted().toTypedArray()
+        // TTSで利用できる言語のリストを取得
+        val localeNames = tts!!.voices.map { it.locale.displayName }.toSet().sorted().toTypedArray()
 
-        // 声の一覧をリストUIに設定
-        val prefListVoice = findPreference(getString(R.string.pref_key_voice)) as ListPreference
-        prefListVoice.entries = voiceNames
-        prefListVoice.entryValues = voiceNames
-        bindPreferenceChangeListener(prefListVoice)
+        // 言語のリストに設定
+        val prefLang = findPreference(getString(R.string.pref_key_lang)) as ListPreference
+        prefLang.entries = localeNames
+        prefLang.entryValues = localeNames
+        bindPreferenceChangeListener(prefLang)
+
+        val prefVoice = findPreference(getString(R.string.pref_key_voice)) as ListPreference
+        bindPreferenceChangeListener(prefVoice)
     }
 
     // Preferenceの表示テキストと設定値を連動させる

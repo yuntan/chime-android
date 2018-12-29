@@ -7,6 +7,9 @@
 
     <string name="pref_title_speech">Speech</string>
 
+    <string name="pref_key_lang">lang</string>
+    <string name="pref_title_lang">Language</string>
+
     <string name="pref_key_voice">voice</string>
     <string name="pref_title_voice">Voice</string>
 

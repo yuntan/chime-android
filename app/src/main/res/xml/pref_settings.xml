@@ -9,6 +9,11 @@
 
         <!-- NOTE: ListPreference's summary should be set to its value by the activity code. -->
         <ListPreference
+                android:key="@string/pref_key_lang"
+                android:icon="@drawable/language"
+                android:title="@string/pref_title_lang"/>
+
+        <ListPreference
                 android:key="@string/pref_key_voice"
                 android:icon="@drawable/record_voice_over"
                 android:title="@string/pref_title_voice"/>
