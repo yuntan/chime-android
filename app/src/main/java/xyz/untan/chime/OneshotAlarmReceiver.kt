@@ -54,10 +54,14 @@ class OneshotAlarmReceiver : BroadcastReceiver() {
             val speakerOk = devices.contains(context.getString(R.string.pref_entry_speaker))
             val wiredOk = devices.contains(context.getString(R.string.pref_entry_wired))
             val btOk = devices.contains(context.getString(R.string.pref_entry_bt))
-            if ((isWiredHeadsetOn(context) && !wiredOk) || (isBtHeadsetOn(context) && !btOk)
-                || (!isHeadsetOn(context) && !speakerOk)
-            ) {
-                val msg = "onReceive: alarm postponed due to audio device"
+
+            val reason = if (isWiredHeadsetOn(context) && !wiredOk) "wired"
+            else if (isBtHeadsetOn(context) && !btOk) "Bluetooth"
+            else if (!isHeadsetOn(context) && !speakerOk) "speaker"
+            else ""
+
+            if (reason.isNotEmpty()) {
+                val msg = "onReceive: alarm postponed due to audio device ($reason)"
                 Log.d(TAG, msg)
                 DeployGate.logDebug(msg)
                 return
