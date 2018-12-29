@@ -35,9 +35,6 @@
     </string-array>
     <string name="pref_default_interval">15</string>
 
-    <string name="pref_key_silent">silent_hours</string>
-    <string name="pref_title_silent">Silent time</string>
-
     <string name="pref_key_dnd">do_not_disturb</string>
     <string name="pref_title_dnd">Do not Disturb</string>
 

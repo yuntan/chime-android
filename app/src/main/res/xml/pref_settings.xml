@@ -38,20 +38,13 @@
     <PreferenceCategory
             android:title="@string/pref_title_alarm">
 
-        <!-- NOTE: Hide buttons to simplify the UI. Users can touch outside the dialog to dismiss it. -->
-        <ListPreference
+        <DropDownPreference
                 android:key="@string/pref_key_interval"
                 android:icon="@drawable/hourglass_empty"
                 android:title="@string/pref_title_interval"
                 android:defaultValue="@string/pref_default_interval"
                 android:entries="@array/pref_entries_interval"
-                android:entryValues="@array/pref_values_interval"
-                android:negativeButtonText="@null"
-                android:positiveButtonText="@null"/>
-
-        <!--Preference
-                android:key="@string/pref_key_silent_hours"
-                android:title="@string/pref_title_silent_hours"/-->
+                android:entryValues="@array/pref_values_interval"/>
 
         <CheckBoxPreference
                 android:key="@string/pref_key_dnd"
@@ -59,6 +52,7 @@
                 android:title="@string/pref_title_dnd"
                 android:defaultValue="true"/>
 
+        <!-- NOTE: Hide buttons to simplify the UI. Users can touch outside the dialog to dismiss it. -->
         <MultiSelectListPreference
                 android:key="@string/pref_key_devices"
                 android:icon="@drawable/headset"

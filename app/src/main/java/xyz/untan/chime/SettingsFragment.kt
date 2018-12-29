@@ -70,7 +70,7 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
                 pref.title = if (newValue as Boolean) getString(R.string.pref_title_enabled_true)
                 else getString(R.string.pref_title_enabled_false)
             }
-            is ListPreference -> {
+            is ListPreference -> { // DropDownPreference含む
                 val i = pref.findIndexOfValue(newValue as String)
                 if (i >= 0) pref.summary = pref.entries[i]
             }
