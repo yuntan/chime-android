@@ -79,7 +79,8 @@ class TTSService : Service(), TextToSpeech.OnInitListener {
     private fun buildNotification(): Notification {
         val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && manager.getNotificationChannel(channelId) == null) {
-            val importance = NotificationManager.IMPORTANCE_DEFAULT // makes sound
+//            val importance = NotificationManager.IMPORTANCE_DEFAULT // makes sound
+            val importance = NotificationManager.IMPORTANCE_LOW // 通知音を鳴らさない
             val channel = NotificationChannel(channelId, channelId, importance)
             manager.createNotificationChannel(channel)
         }
