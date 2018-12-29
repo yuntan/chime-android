@@ -1,11 +1,11 @@
 <resources>
     <string name="app_name">Chime</string>
 
-    <string name="pref_key_chime_switch">chime_switch</string>
-    <string name="pref_title_chime_switch_on">On</string>
-    <string name="pref_title_chime_switch_off">Off</string>
+    <string name="pref_key_enabled">enabled</string>
+    <string name="pref_title_enabled_true">On</string>
+    <string name="pref_title_enabled_false">Off</string>
 
-    <string name="pref_title_group_speech">Speech</string>
+    <string name="pref_title_speech">Speech</string>
 
     <string name="pref_key_voice">voice</string>
     <string name="pref_title_voice">Voice</string>
@@ -13,10 +13,10 @@
     <string name="pref_key_speed">speed</string>
     <string name="pref_title_speed">Speed</string>
 
-    <string name="pref_key_speak_test">speak_test</string>
-    <string name="pref_title_speak_test">Speak test</string>
+    <string name="pref_key_test">speak_test</string>
+    <string name="pref_title_test">Speak test</string>
 
-    <string name="pref_title_group_alarm">Alarm</string>
+    <string name="pref_title_alarm">Alarm</string>
 
     <string name="pref_key_interval">interval</string>
     <string name="pref_title_interval">Interval</string>
@@ -30,20 +30,31 @@
         <item>30</item>
         <item>60</item>
     </string-array>
+    <string name="pref_default_interval">15</string>
 
-    <string name="pref_key_silent_hours">silent_hours</string>
-    <string name="pref_title_silent_hours">Silent time</string>
+    <string name="pref_key_silent">silent_hours</string>
+    <string name="pref_title_silent">Silent time</string>
 
-    <string name="pref_key_sound_devices">sound_devices</string>
-    <string name="pref_title_sound_devices">Sound devices</string>
-    <string-array name="pref_entries_sound_devices">
-        <item>Speaker</item>
-        <item>Wired</item>
-        <item>Bluetooth</item>
+    <string name="pref_key_dnd">do_not_disturb</string>
+    <string name="pref_title_dnd">Do not Disturb</string>
+
+    <string name="pref_key_devices">sound_devices</string>
+    <string name="pref_title_devices">Sound devices</string>
+    <string name="pref_entry_speaker">Speaker</string>
+    <string name="pref_entry_wired">Wired</string>
+    <string name="pref_entry_bt">Bluetooth</string>
+    <string-array name="pref_entries_devices">
+        <item>@string/pref_entry_speaker</item>
+        <item>@string/pref_entry_wired</item>
+        <item>@string/pref_entry_bt</item>
     </string-array>
-    <string-array name="pref_values_sound_devices">
-        <item>1</item>
-        <item>2</item>
-        <item>4</item>
+    <string-array name="pref_values_devices">
+        <item>@string/pref_entry_speaker</item>
+        <item>@string/pref_entry_wired</item>
+        <item>@string/pref_entry_bt</item>
+    </string-array>
+    <string-array name="pref_default_devices">
+        <item>@string/pref_entry_wired</item>
+        <item>@string/pref_entry_bt</item>
     </string-array>
 </resources>
