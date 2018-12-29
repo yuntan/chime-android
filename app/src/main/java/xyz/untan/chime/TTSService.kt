@@ -83,8 +83,10 @@ class TTSService : Service(), TextToSpeech.OnInitListener {
         }
         tts!!.voice = voice
 
-        // TODO 読み上げる速さの設定値を反映
-        tts!!.setSpeechRate(.8F)
+        // 読み上げる速さの設定値を反映
+        val speed = PreferenceManager.getDefaultSharedPreferences(this)
+            .getFloat(getString(R.string.pref_key_speed), .8F)
+        tts!!.setSpeechRate(speed)
 
         val text = genSpeechText(voice.locale)
         tts!!.speak(text, TextToSpeech.QUEUE_FLUSH, null, text)

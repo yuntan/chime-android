@@ -1,4 +1,5 @@
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <SwitchPreference
             android:key="@string/pref_key_enabled"
@@ -18,10 +19,14 @@
                 android:icon="@drawable/record_voice_over"
                 android:title="@string/pref_title_voice"/>
 
-        <ListPreference
-                android:key="@string/pref_key_speed"
-                android:icon="@drawable/slow_motion_video"
-                android:title="@string/pref_title_speed"/>
+        <xyz.untan.chime.FloatSeekBarPreference android:key="@string/pref_key_speed"
+                                                android:icon="@drawable/slow_motion_video"
+                                                android:title="@string/pref_title_speed"
+                                                android:defaultValue="0.8"
+                                                app:minValue="0.5"
+                                                app:maxValue="1.0"
+                                                app:valueSpacing="0.1"
+                                                app:format="\u00D7%3.1f"/>
 
         <Preference
                 android:key="@string/pref_key_test"
