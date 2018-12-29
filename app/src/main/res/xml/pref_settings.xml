@@ -1,23 +1,19 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
                   xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <SwitchPreference
-            android:key="@string/pref_key_enabled"
-            android:defaultValue="true"/>
+    <SwitchPreference android:key="@string/pref_key_enabled"
+                      android:defaultValue="true"/>
 
-    <PreferenceCategory
-            android:title="@string/pref_title_speech">
+    <PreferenceCategory android:title="@string/pref_title_speech">
 
         <!-- NOTE: ListPreference's summary should be set to its value by the activity code. -->
-        <ListPreference
-                android:key="@string/pref_key_lang"
-                android:icon="@drawable/language"
-                android:title="@string/pref_title_lang"/>
+        <ListPreference android:key="@string/pref_key_lang"
+                        android:icon="@drawable/language"
+                        android:title="@string/pref_title_lang"/>
 
-        <ListPreference
-                android:key="@string/pref_key_voice"
-                android:icon="@drawable/record_voice_over"
-                android:title="@string/pref_title_voice"/>
+        <ListPreference android:key="@string/pref_key_voice"
+                        android:icon="@drawable/record_voice_over"
+                        android:title="@string/pref_title_voice"/>
 
         <xyz.untan.chime.FloatSeekBarPreference android:key="@string/pref_key_speed"
                                                 android:icon="@drawable/slow_motion_video"
@@ -28,39 +24,34 @@
                                                 app:valueSpacing="0.1"
                                                 app:format="\u00D7%3.1f"/>
 
-        <Preference
-                android:key="@string/pref_key_test"
-                android:icon="@drawable/hearing"
-                android:title="@string/pref_title_test"/>
+        <Preference android:key="@string/pref_key_test"
+                    android:icon="@drawable/hearing"
+                    android:title="@string/pref_title_test"/>
 
     </PreferenceCategory>
 
-    <PreferenceCategory
-            android:title="@string/pref_title_alarm">
+    <PreferenceCategory android:title="@string/pref_title_alarm">
 
-        <DropDownPreference
-                android:key="@string/pref_key_interval"
-                android:icon="@drawable/hourglass_empty"
-                android:title="@string/pref_title_interval"
-                android:defaultValue="@string/pref_default_interval"
-                android:entries="@array/pref_entries_interval"
-                android:entryValues="@array/pref_values_interval"/>
+        <DropDownPreference android:key="@string/pref_key_interval"
+                            android:icon="@drawable/hourglass_empty"
+                            android:title="@string/pref_title_interval"
+                            android:defaultValue="@string/pref_default_interval"
+                            android:entries="@array/pref_entries_interval"
+                            android:entryValues="@array/pref_values_interval"/>
 
-        <CheckBoxPreference
-                android:key="@string/pref_key_dnd"
-                android:icon="@drawable/do_not_disturb_on"
-                android:title="@string/pref_title_dnd"
-                android:defaultValue="true"/>
+        <CheckBoxPreference android:key="@string/pref_key_dnd"
+                            android:icon="@drawable/do_not_disturb_on"
+                            android:title="@string/pref_title_dnd"
+                            android:defaultValue="true"/>
 
         <!-- NOTE: Hide buttons to simplify the UI. Users can touch outside the dialog to dismiss it. -->
-        <MultiSelectListPreference
-                android:key="@string/pref_key_devices"
-                android:icon="@drawable/headset"
-                android:title="@string/pref_title_devices"
-                android:entries="@array/pref_entries_devices"
-                android:entryValues="@array/pref_values_devices"
-                android:defaultValue="@array/pref_default_devices"
-                android:negativeButtonText="@null"/>
+        <MultiSelectListPreference android:key="@string/pref_key_devices"
+                                   android:icon="@drawable/headset"
+                                   android:title="@string/pref_title_devices"
+                                   android:entries="@array/pref_entries_devices"
+                                   android:entryValues="@array/pref_values_devices"
+                                   android:defaultValue="@array/pref_default_devices"
+                                   android:negativeButtonText="@null"/>
 
     </PreferenceCategory>
 
