@@ -7,8 +7,8 @@ import android.content.Intent
 import android.media.AudioDeviceInfo
 import android.media.AudioManager
 import android.os.Build
-import android.support.v7.preference.PreferenceManager
 import android.util.Log
+import androidx.preference.PreferenceManager
 import com.deploygate.sdk.DeployGate
 
 /*

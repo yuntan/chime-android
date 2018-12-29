@@ -1,8 +1,8 @@
 package xyz.untan.chime
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 
 class SettingsActivity : AppCompatActivity() {
     private val TAG: String = SettingsActivity::class.java.simpleName

@@ -3,13 +3,8 @@ package xyz.untan.chime
 import android.content.Intent
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
-import android.support.v14.preference.MultiSelectListPreference
-import android.support.v14.preference.SwitchPreference
-import android.support.v7.preference.ListPreference
-import android.support.v7.preference.Preference
-import android.support.v7.preference.PreferenceFragmentCompat
-import android.support.v7.preference.PreferenceManager
 import android.util.Log
+import androidx.preference.*
 
 class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChangeListener,
     TextToSpeech.OnInitListener {
@@ -29,21 +24,21 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
 
         tts = TextToSpeech(context, this)
 
-        val prefEnabled = findPreference(getString(R.string.pref_key_enabled))
+        val prefEnabled: Preference = findPreference(getString(R.string.pref_key_enabled))!!
         bindPreferenceChangeListener(prefEnabled)
 
         // 音声テスト用ボタン
-        val btnTest = findPreference(getString(R.string.pref_key_test))
+        val btnTest: Preference = findPreference(getString(R.string.pref_key_test))!!
         btnTest.setOnPreferenceClickListener {
             val intent = Intent(context, TTSService::class.java)
             context!!.startService(intent)
             true
         }
 
-        val prefInterval = findPreference(getString(R.string.pref_key_interval))
+        val prefInterval: Preference = findPreference(getString(R.string.pref_key_interval))!!
         bindPreferenceChangeListener(prefInterval)
 
-        val prefDevices = findPreference(getString(R.string.pref_key_devices))
+        val prefDevices: Preference = findPreference(getString(R.string.pref_key_devices))!!
         bindPreferenceChangeListener(prefDevices)
     }
 
