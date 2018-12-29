@@ -12,6 +12,7 @@ import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
 import android.support.v4.app.NotificationCompat
 import android.support.v4.content.ContextCompat
+import android.support.v7.preference.PreferenceManager
 import android.util.Log
 import java.util.*
 
@@ -70,9 +71,22 @@ class TTSService : Service(), TextToSpeech.OnInitListener {
             Log.d(TAG, "TextToSpeech error")
             return
         }
-        val text = genSpeechText()
-        tts!!.language = Locale.ENGLISH
+
+        // 声の選択の設定値を反映
+        val voiceName =
+            PreferenceManager.getDefaultSharedPreferences(this).getString(getString(R.string.pref_key_voice), null)
+        val voice = if (voiceName.isNullOrEmpty()) tts!!.defaultVoice
+        else tts!!.voices.firstOrNull { it.name == voiceName }
+        if (voice == null) {
+            Log.e(TAG, "onInit: cannot find voice $voiceName")
+            return
+        }
+        tts!!.voice = voice
+
+        // TODO 読み上げる速さの設定値を反映
         tts!!.setSpeechRate(.8F)
+
+        val text = genSpeechText(voice.locale)
         tts!!.speak(text, TextToSpeech.QUEUE_FLUSH, null, text)
     }
 
@@ -89,18 +103,30 @@ class TTSService : Service(), TextToSpeech.OnInitListener {
             .build()
     }
 
-    private fun genSpeechText(): String {
+    // 時刻を読み上げるためのテキストを生成
+    private fun genSpeechText(locale: Locale): String {
         val cal = Calendar.getInstance()
         val hour = cal.get(Calendar.HOUR_OF_DAY)
         val min = cal.get(Calendar.MINUTE)
 
-        return if (hour == 0 && min == 0) "midnight"
-        else if (hour == 12 && min == 0) "noon"
-        else when (min) {
-            0 -> "$hour o'clock"
-            15 -> "quarter past $hour"
-            30 -> "half past $hour"
-            45 -> "quarter to ${hour + 1}"
+        return when (locale) {
+            Locale.ENGLISH ->
+                if (hour == 0 && min == 0) "midnight"
+                else if (hour == 12 && min == 0) "noon"
+                else when (min) {
+                    0 -> "$hour o'clock"
+                    15 -> "quarter past $hour"
+                    30 -> "half past $hour"
+                    45 -> "quarter to ${hour + 1}"
+                    else -> String.format("%d:%02d", hour, min)
+                }
+            Locale.JAPANESE ->
+                if (hour == 12 && min == 0) "正午"
+                else when (min) {
+                    0 -> "${hour}時"
+                    30 -> "${hour}時半"
+                    else -> "${hour}時${min}分"
+                }
             else -> String.format("%d:%02d", hour, min)
         }
     }
