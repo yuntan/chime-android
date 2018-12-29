@@ -7,6 +7,7 @@ import android.content.Intent
 import android.media.AudioDeviceInfo
 import android.media.AudioManager
 import android.os.Build
+import android.support.v7.preference.PreferenceManager
 import android.util.Log
 import com.deploygate.sdk.DeployGate
 
@@ -20,13 +21,25 @@ class OneshotAlarmReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         Log.d(TAG, "onReceive")
 
-        if (isDoNotDisturbOn(context)) {
+        // 設定値によって実行をスキップする
+        val enabled = PreferenceManager.getDefaultSharedPreferences(context)
+            .getBoolean(context.getString(R.string.pref_key_enabled), true)
+        if (!enabled) {
+            Log.d(TAG, "onReceive: enabled = false")
+            return
+        }
+
+        // Do not Disturb設定を確認
+        val dnd = PreferenceManager.getDefaultSharedPreferences(context)
+            .getBoolean(context.getString(R.string.pref_key_dnd), true)
+        if (dnd && isDoNotDisturbOn(context)) {
             val msg = "onReceive: alarm postponed due to do not disturb"
             Log.d(TAG, msg)
             DeployGate.logDebug(msg)
             return
         }
 
+        // 鳴動中・通話中でないことを確認
         if (!isAudioModeNormal(context)) {
             val msg = "onReceive: alarm postponed due to audio mode"
             Log.d(TAG, msg)
@@ -34,11 +47,21 @@ class OneshotAlarmReceiver : BroadcastReceiver() {
             return
         }
 
-        if (!isHeadsetOn(context)) {
-            val msg = "onReceive: alarm postponed due to audio device"
-            Log.d(TAG, msg)
-            DeployGate.logDebug(msg)
-            return
+        // 音声出力デバイスを確認
+        val devices = PreferenceManager.getDefaultSharedPreferences(context)
+            .getStringSet(context.getString(R.string.pref_key_devices), null)
+        if (devices != null) {
+            val speakerOk = devices.contains(context.getString(R.string.pref_entry_speaker))
+            val wiredOk = devices.contains(context.getString(R.string.pref_entry_wired))
+            val btOk = devices.contains(context.getString(R.string.pref_entry_bt))
+            if ((isWiredHeadsetOn(context) && !wiredOk) || (isBtHeadsetOn(context) && !btOk)
+                || (!isHeadsetOn(context) && !speakerOk)
+            ) {
+                val msg = "onReceive: alarm postponed due to audio device"
+                Log.d(TAG, msg)
+                DeployGate.logDebug(msg)
+                return
+            }
         }
 
         val msg = "onReceive: alarm accepted"
@@ -63,18 +86,33 @@ class OneshotAlarmReceiver : BroadcastReceiver() {
         return manager.mode == AudioManager.MODE_NORMAL
     }
 
-    // ヘッドセット（有線イヤホン，Bluetoothヘッドセット等）が接続されている
-    private fun isHeadsetOn(context: Context): Boolean {
+    private fun isHeadsetOn(context: Context): Boolean =
+        isWiredHeadsetOn(context) || isBtHeadsetOn(context)
+
+    // 有線ヘッドセットが接続されている
+    private fun isWiredHeadsetOn(context: Context): Boolean {
         val manager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
         return if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
             manager.getDevices(AudioManager.GET_DEVICES_OUTPUTS).any {
                 it.type == AudioDeviceInfo.TYPE_WIRED_HEADPHONES
-                        || it.type == AudioDeviceInfo.TYPE_BLUETOOTH_A2DP
+            }
+        } else {
+            @Suppress("DEPRECATION")
+            manager.isWiredHeadsetOn
+        }
+    }
+
+    // Bluetoothヘッドセットが接続されている
+    private fun isBtHeadsetOn(context: Context): Boolean {
+        val manager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        return if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
+            manager.getDevices(AudioManager.GET_DEVICES_OUTPUTS).any {
+                it.type == AudioDeviceInfo.TYPE_BLUETOOTH_A2DP
                         || it.type == AudioDeviceInfo.TYPE_BLUETOOTH_SCO
             }
         } else {
             @Suppress("DEPRECATION")
-            manager.isWiredHeadsetOn || manager.isBluetoothA2dpOn
+            manager.isBluetoothA2dpOn
         }
     }
 
